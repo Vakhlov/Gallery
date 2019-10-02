@@ -2,87 +2,73 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Галерея</title>
     <link rel="stylesheet" href="styles/styles.css" />
 </head>
 
 <body>
     <main>
-        <!--
-            http://scalemodels.ru/modules/myarticles/img_8904_1441821836_IMG_3902.jpg.html
-            http://top.scalemodels.ru/images/2015/09/1441821836_IMG_3902.jpg
-            http://scalemodels.ru/images/2015/09/thumbs/1441821836_IMG_3902.jpg
-        -->
         <section class="gallery" id="gallery-1">
             <header class="gallery__heading">
                 <div class="gallery__heading-title">
-                    Иллюстрации к статье
-                    <a href="http://scalemodels.ru/articles/8904-RV-Aircraft-1-72-mig-21-smt.html">
-                        RV Aircraft 1/72 МИГ-21 СМТ
-                    </a>
+                    Иллюстрации к статье <a href="http://example.com">Название статьи</a>
                 </div>
                 <div class="gallery__heading-text">
-                    <span class="gallery__counter">Изображение <span>1</span> из <span>32</span>.</span>
+                    <span class="gallery__counter">Изображение <span class="js-gallery-current-index">1</span> из <span>29</span>.</span>
                     <span class="gallery__tags">
-                        Теги: <span>МиГ-21</span>, <span>Модели</span>, <span>1/72</span>, <span>ВВС СССР</span>,
-                        <span>после 1950</span>, <span>СССР</span>, <span>r.v. aircraft</span>, <span>Микоян</span>,
-                        <span>реактивы</span>
+                        Теги: <span>галерея</span>, <span>превью</span>, <span>прокрутка</span>, <span>адаптивный</span>
                     </span>
                 </div>
             </header>
             <div class="gallery__image">
-                <!--
-                    Изображение должно соответствовать выбранному в списке превью. При выключенном JavaScript щелчок на
-                    изображении не должен ничего делать. При включенном JavaScript щелчок на изображении должен
-                    переводить на следующее изображение.
-                -->
-                <img src="http://top.scalemodels.ru/images/2015/09/1441821836_IMG_3902.jpg" alt="" />
+                <img src="https://picsum.photos/id/1/1024/680" alt="" />
             </div>
-            <div class="gallery__previews">
-                <div class="gallery__previews-container">
+            <div class="gallery__previews js-gallery-preview-list">
+                <div class="gallery__previews-container js-gallery-preview-list-container">
                     <ul>
-                        <!--
-                            Ссылка с превью должна вести на страницу галереи, где выбранным будет изображение,
-                            соответствующее превью. При выключенном JavaScript щелчок по превью переведет пользователя
-                            на страницу с выбранным изображением. При включенном JavaScript щелчок по превью не должен
-                            переводить пользователя на другую страницу. Вместо этого обновляется основное изображение.
-                        -->
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821836_IMG_3902.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821836_IMG_3902.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821840_IMG_3904.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821840_IMG_3904.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821846_IMG_3908.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821846_IMG_3908.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821846_IMG_3908.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821854_IMG_3915.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821858_IMG_3917.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821858_IMG_3917.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821866_IMG_3918.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821866_IMG_3918.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821876_IMG_3919.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821876_IMG_3919.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821884_IMG_3920.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821884_IMG_3920.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821888_IMG_3923.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821888_IMG_3923.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821895_IMG_3924.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821895_IMG_3924.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821902_IMG_3925.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821902_IMG_3925.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821907_IMG_3926.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821907_IMG_3926.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821924_IMG_0125.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821924_IMG_0125.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821933_IMG_0126.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821933_IMG_0126.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821944_IMG_0128.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821944_IMG_0128.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821952_IMG_0130.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821952_IMG_0130.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821961_IMG_0132.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821961_IMG_0132.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821970_IMG_0135.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821970_IMG_0135.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821979_IMG_0138.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821979_IMG_0138.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821990_IMG_0139.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821990_IMG_0139.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821990_IMG_3930.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821990_IMG_3930.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441821999_IMG_3945.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441821999_IMG_3945.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822001_IMG_0140.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822001_IMG_0140.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822008_IMG_3946.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822008_IMG_3946.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822009_IMG_0141.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822009_IMG_0141.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822022_IMG_0143.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822022_IMG_0143.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822027_IMG_3959.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822027_IMG_3959.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822037_IMG_3964.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822037_IMG_3964.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822043_IMG_3966.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822043_IMG_3966.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822073_IMG_0140.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822073_IMG_0140.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822079_IMG_0141.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822079_IMG_0141.jpg" alt="" /></a></li>
-                        <li><a href="http://scalemodels.ru/modules/myarticles/img_8904_1441822086_IMG_0143.jpg.html"><img src="http://scalemodels.ru/images/2015/09/thumbs/1441822086_IMG_0143.jpg" alt="" /></a></li>
+                        <li><a href="https://picsum.photos/id/1/1024/680"><img src="https://picsum.photos/id/1/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/2/1024/680"><img src="https://picsum.photos/id/2/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/3/1024/680"><img src="https://picsum.photos/id/3/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/4/1024/680"><img src="https://picsum.photos/id/4/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/5/1024/680"><img src="https://picsum.photos/id/5/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/6/1024/680"><img src="https://picsum.photos/id/6/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/7/1024/680"><img src="https://picsum.photos/id/7/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/8/1024/680"><img src="https://picsum.photos/id/8/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/9/1024/680"><img src="https://picsum.photos/id/9/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/10/1024/680"><img src="https://picsum.photos/id/10/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/11/1024/680"><img src="https://picsum.photos/id/11/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/12/1024/680"><img src="https://picsum.photos/id/12/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/13/1024/680"><img src="https://picsum.photos/id/13/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/14/1024/680"><img src="https://picsum.photos/id/14/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/15/1024/680"><img src="https://picsum.photos/id/15/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/16/1024/680"><img src="https://picsum.photos/id/16/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/17/1024/680"><img src="https://picsum.photos/id/17/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/18/1024/680"><img src="https://picsum.photos/id/18/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/19/1024/680"><img src="https://picsum.photos/id/19/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/20/1024/680"><img src="https://picsum.photos/id/20/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/21/1024/680"><img src="https://picsum.photos/id/21/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/22/1024/680"><img src="https://picsum.photos/id/22/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/23/1024/680"><img src="https://picsum.photos/id/23/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/24/1024/680"><img src="https://picsum.photos/id/24/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/25/1024/680"><img src="https://picsum.photos/id/25/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/26/1024/680"><img src="https://picsum.photos/id/26/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/27/1024/680"><img src="https://picsum.photos/id/27/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/28/1024/680"><img src="https://picsum.photos/id/28/120/80" alt="" width="120" height="80" /></a></li>
+                        <li><a href="https://picsum.photos/id/29/1024/680"><img src="https://picsum.photos/id/29/120/80" alt="" width="120" height="80" /></a></li>
                     </ul>
                 </div>
             </div>
         </section>
     </main>
+    <script src="scripts/helpers.js"></script>
+    <script src="scripts/LoadingVeil.js"></script>
+    <script src="scripts/GalleryImage.js"></script>
+    <script src="scripts/GalleryPreview.js"></script>
+    <script src="scripts/GalleryPreviewList.js"></script>
+    <script src="scripts/Gallery.js"></script>
+    <script>
+        new Gallery({id: 'gallery-1'});
+    </script>
 </body>
 </html>

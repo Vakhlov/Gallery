@@ -40,6 +40,7 @@ main {
 .gallery__image {
     border: 1px solid #FEFEFE;
     margin: 6px 0;
+    position: relative;
 }
 
 .gallery__image img {
@@ -47,18 +48,23 @@ main {
 }
 
 .gallery__previews {
-
+    position: relative;
 }
 
 .gallery__previews-container {
-
+    margin: 0 40px;
+    overflow: hidden;
 }
 
 .gallery__previews-container ul {
     font-size: 0;
+    left: 0;
     list-style: none;
-    margin: 0;
+    margin: 0 0 0 0;
     padding: 0;
+    position: relative;
+    user-select: none;
+    white-space: nowrap;
 }
 
 .gallery__previews-container li {
@@ -66,7 +72,114 @@ main {
     font-size: 14px;
     height: 80px;
     margin-right: 10px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     overflow: hidden;
+    text-align: center;
     width: 120px;
+}
+
+.gallery__previews-container li:last-child {
+    margin-right: 0;
+}
+
+.gallery__previews-container .active {
+    outline: 2px solid #999;
+    outline-offset: -2px;
+}
+
+.gallery__next {
+    background: #FFF;
+    display: block;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    user-select: none;
+    width: 40px;
+}
+
+.gallery__next::before {
+    background: url("data:image/svg+xml,%3Csvg width='16' height='28' viewBox='0 0 16 28' fill='black' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='-0.69' y='25.31' width='20' height='4' rx='2' transform='rotate(-45 -0.69 25.31)' /%3E%3Crect x='-0.69' y='2.69' width='4' height='20' rx='2' transform='rotate(-45 -0.69 2.69)' /%3E%3C/svg%3E") no-repeat center center;
+    content: '';
+    display: block;
+    height: 100%;
+    opacity: .6;
+    width: 100%;
+}
+
+.gallery__prev {
+    background: #FFF;
+    display: block;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
+    width: 40px;
+}
+
+.gallery__prev::before {
+    background: url("data:image/svg+xml,%3Csvg width='16' height='28' viewBox='0 0 16 28' fill='black' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='16.69' y='2.69' width='20' height='4' rx='2' transform='rotate(135 16.69 2.69)' /%3E%3Crect x='16.69' y='25.31' width='4' height='20' rx='2' transform='rotate(135 16.69 25.31)' /%3E%3C/svg%3E%0A") no-repeat center center;
+    content: '';
+    display: block;
+    height: 100%;
+    opacity: .6;
+    width: 100%;
+}
+
+.gallery__next:hover::before,
+.gallery__prev:hover::before {
+    opacity: 1;
+}
+
+.gallery__next:focus::before,
+.gallery__next:active::before,
+.gallery__prev:focus::before,
+.gallery__prev:active::before {
+    opacity: 1;
+}
+
+.gallery__next.disabled::before,
+.gallery__prev.disabled::before {
+    opacity: .2;
+}
+
+.gallery__loading {
+    background: rgba(255, 255, 255, .5);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.gallery__loading::before {
+    animation: loading 1.5s infinite linear;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-bottom-color: #FFF;
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 50px;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+    position: absolute;
+    top: 50%;
+    width: 50px;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.gallery__loading_active {
+    display: block;
 }

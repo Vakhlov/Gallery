@@ -17,42 +17,30 @@ var GalleryImage = function (config, context) {
     };
 
     /**
-     * Создает функцию-обработчик ошибки загрузки изображения.
-     * @param {Function} callback - функция обратного вызова.
-     * @returns {Function} - возвращает функцию-обработчик ошибки загрузки изображения.
+     * Функция-обработчик ошибки загрузки изображения. Вызывает функцию обратного вызова, если она есть и удаляет данные
+     * малого изображения, на которое должен был быть осуществлен переход.
+     * @param {Error} error - объект ошибки.
      */
     this.handleError = function (error) {
         this.loading(false);
 
         if (this.config.callbacks.onError) {
             this.config.callbacks.onError(error);
+            this.switchingTo = null;
         }
-    }
+    };
 
     /**
-     * Создает функцию-обработчик загрузки изображения. Созданная функция переключает изображение, скрывает спиннер и
-     * помещает `url` загруженного изображения в кеш.
-     * @param {string} src - `url` загруженного изображения.
-     * @param {Function} callback - функция обратного вызова.
-     * @returns {Function} - возвращает функцию-обработчик загрузки изображения.
+     * Функция-обработчик загрузки изображения. Скрывает спиннер, вызывает функцию обратного вызова, если она есть и
+     * удаляет данные малого изображения, на которое был осуществлен переход.
      */
     this.handleLoad = function () {
         this.loading(false);
 
         if (this.config.callbacks.onLoad && this.switchingTo) {
             this.config.callbacks.onLoad(this.switchingTo.index);
-            this.cache.push(this.switchingTo.src);
             this.switchingTo = null;
         }
-    };
-
-    /**
-     * Проверяет, было ли изображение загружено ранее.
-     * @param {string} src - `url` изображения
-     * @returns {boolean} - возвращает `true`, если изображение было загружено ранее, `false` - если не было.
-     */
-    this.isLoaded = function (src) {
-        return this.cache.indexOf(src) >= 0;
     };
 
     /**
@@ -68,37 +56,19 @@ var GalleryImage = function (config, context) {
     };
 
     /**
-     * Меняет `url` осноного изображения на указанный (переключает изображение) и вызывает функцию обратного вызова.
-     * @param {string} src - новый `url` изображения.
-     */
-    this.switch = function (preview) {
-        this.img.setAttribute('src', preview.src);
-        this.loading(false);
-
-        if (this.config.callbacks.onLoad) {
-            this.config.callbacks.onLoad(preview.index);
-        }
-    }
-
-    /**
-     * Обновляет основное изображение, загружая новое изображение. После успешной загрузки вызывается функция
-     * обратного вызова. Если изображение уже было показано ранее, оно не загружается повторно и спиннер
-     * не используется. Вместо этого используется кеш браузера.
-     * @param {string} src - `url` нового изображения.
+     * Обновляет основное изображение, загружая новое изображение. Сохраняет данные малого изображения, на которое
+     * осуществляется переход, для последующего использования в обработчике успешной загрузки основного изображения.
+     * @param {{index: number, src: string}} preview - данные малого изображения: `url` нового изображения и индекс
+     * малого изображения.
      */
     this.update = function (preview) {
         if (this.element) {
             this.switchingTo = preview;
-            if (this.isLoaded(preview.src)) {
-                this.switch(preview);
-            } else {
-                this.loading(true);
-                this.img.src = preview.src;
-            }
+            this.loading(true);
+            this.img.src = preview.src;
         }
-    }
+    };
 
-    this.cache = [];
     this.config = config;
 
     if (this.configCorrect() && context) {
@@ -110,7 +80,6 @@ var GalleryImage = function (config, context) {
             this.img = this.element.querySelector('img');
             this.img.onload = this.handleLoad.bind(this);
             this.img.onerror = this.handleError.bind(this);
-            this.cache.push(this.img.getAttribute('src'));
             this.switchingTo = null;
         }
     }

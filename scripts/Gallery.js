@@ -184,4 +184,6 @@ var Gallery = function (config) {
         this.element.addEventListener('click', this.handleClick.bind(this));
         window.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
+
+    return {};
 };

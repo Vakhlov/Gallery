@@ -21,7 +21,7 @@ var LoadingVeil = function (config, context) {
 
     /**
      * Создает элемент, выполняющий функцию спиннера. Если такой элемент уже есть в верстке, возвращает его.
-     * @returns {HTMLLIElement} - возвращает элемент спиннера.
+     * @returns {HTMLDivElement} - возвращает элемент спиннера.
      */
     this.createElement = function () {
         var element = this.context.querySelector(this.selector);
@@ -39,17 +39,26 @@ var LoadingVeil = function (config, context) {
      * Скрывает спиннер, удаляя `css`-класс.
      */
     this.hide = function () {
+        clearTimeout(this.timeout);
         removeClass(this.element, this.config.activeClassName);
+    };
+
+    /**
+     * Устанавливается таймаут на показ спиннера.
+     */
+    this.show = function () {
+        this.timeout = setTimeout(this.showVeil.bind(this), 300);
     };
 
     /**
      * Показывает спиннер, добавляя `css`-класс.
      */
-    this.show = function () {
+    this.showVeil = function () {
         addClass(this.element, this.config.activeClassName);
     };
 
     this.config = config;
+    this.timeout = undefined;
 
     if (this.configCorrect() && context) {
         this.context = context;

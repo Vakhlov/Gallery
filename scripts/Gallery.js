@@ -8,13 +8,8 @@ var Gallery = function (config) {
      * @returns {Function} - функция обратного вызова.
      */
     this.afterUpdate = function (index) {
-        // `IDE` генерирует предупреждение о потенциально неправильном `this`, поэтому `bind` не используется по месту
-        // вызова `afterUpdate`
-        var that = this;
-        return function () {
-            that.updateCounter(index);
-            that.previewList.activatePreview(index);
-        };
+        this.updateCounter(index);
+        this.previewList.activatePreview(index);
     };
 
     /**
@@ -129,7 +124,7 @@ var Gallery = function (config) {
         var previewData = this.previewList.getPreviewData(preview);
 
         if (previewData.index >= 0) {
-            this.image.update(previewData.src, this.afterUpdate(previewData.index), this.handleUpdateError.bind(this));
+            this.image.update(previewData);
         }
     };
 
@@ -152,6 +147,10 @@ var Gallery = function (config) {
             loadingVeil: {
                 activeClassName: 'gallery__loading_active',
                 className: 'gallery__loading'
+            },
+            callbacks: {
+                onError: this.handleUpdateError.bind(this),
+                onLoad: this.afterUpdate.bind(this)
             }
         },
         previewList: {

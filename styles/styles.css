@@ -68,6 +68,7 @@ main {
 }
 
 .gallery__previews-container li {
+    background: #BEBEBE;
     display: inline-block;
     font-size: 14px;
     height: 80px;
@@ -84,6 +85,11 @@ main {
 
 .gallery__previews-container .active {
     outline: 2px solid #999;
+    outline-offset: -2px;
+}
+
+.gallery__previews-container .error {
+    outline: 2px solid rgba(255, 0, 0, .7);
     outline-offset: -2px;
 }
 

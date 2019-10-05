@@ -2,14 +2,14 @@
 
 var Gallery = function (config) {
     /**
-     * Возвращает функцию обратного вызова, которая используется после обновления основного изображения и обновляет
-     * счетчик и список малых изображений.
-     * @param {number} index - индекс малого изображения, которое стало активным.
-     * @returns {Function} - функция обратного вызова.
+     * Функция обратного вызова, которая используется после обновления основного изображения и обновляет счетчик и
+     * список малых изображений.
+     * @param {GalleryPreview} preview - малое изображение, которое стало активным.
      */
-    this.afterUpdate = function (index) {
-        this.updateCounter(index);
-        this.previewList.activatePreview(index);
+    this.afterUpdate = function (preview) {
+        this.updateCounter(preview.getIndex());
+        this.previewList.activatePreview(preview);
+        this.switchingTo = null;
     };
 
     /**
@@ -22,14 +22,15 @@ var Gallery = function (config) {
      * - в них есть непустое свойство `image`,
      * - в них есть непустое свойство `previewList`,
      * - в свойстве `previewList` есть непустое свойство `preview`,
-     * - в свойстве `preview` свойства `previewList` них есть непустое свойство `selector`,
-     * - в них есть непустое свойство `selector`.
+     * - в свойстве `preview` свойства `previewList` есть непустое свойство `selector`,
+     * - в свойстве `previewList` есть непустое свойство `selector`.
      * Тем не менее, правильность настроек для `Gallery` не гарантирует правильность настроек для
      * аггрегируемых классов.
      * @returns {boolean} - возвращает `true`, если настройки правильны, `false` - если нет.
      */
     this.configCorrect = function () {
-        return !!this.config.id
+        return !!this.config
+            && !!this.config.id
             && !!this.config.counter
             && !!this.config.counter.current
             && !!this.config.counter.current.selector
@@ -46,16 +47,11 @@ var Gallery = function (config) {
      */
     this.handleClick = function (event) {
         event.preventDefault();
+
         var target = event.target;
+        var preview = this.previewList.handleClick(target);
 
-        if (closest(target, this.config.previewList.selector)) {
-            this.previewList.handleClick(target);
-            var preview = closest(target, this.config.previewList.preview.selector);
-
-            if (preview) {
-                this.showImage(preview);
-            }
-        }
+        this.showImage(preview);
     };
 
     /**
@@ -83,12 +79,18 @@ var Gallery = function (config) {
     };
 
     /**
-     * В режиме отладки выводит в консоль браузера сообщение об ошибке загрузки изображения.
+     * Обработчик ошибки переключения основного изображения. Вызывает обработчик ошибки переключения в списке малых
+     * изображений. В режиме отладки выводит в консоль браузера сообщение об ошибке загрузки изображения.
      * @param {Error} error - объект ошибки.
      */
     this.handleUpdateError = function (error) {
         if (this.debug) {
             console.log(error.message);
+        }
+
+        if (this.switchingTo !== null) {
+            this.previewList.handleError(this.switchingTo);
+            this.switchingTo = null;
         }
     };
 
@@ -96,35 +98,27 @@ var Gallery = function (config) {
      * Показывает следующее изображение из списка малых изображений если это возможно.
      */
     this.next = function () {
-        var index = this.previewList.getNextIndex();
-        var preview = this.previewList.getPreview(index);
-
-        if (preview) {
-            this.showImage(preview.getElement());
-        }
+        var preview = this.previewList.getNextPreview();
+        this.showImage(preview);
     };
 
     /**
      * Показывает предыдущее изображение из списка малых изображений если это возможно.
      */
     this.prev = function () {
-        var index = this.previewList.getPrevIndex();
-        var preview = this.previewList.getPreview(index);
-
-        if (preview) {
-            this.showImage(preview.getElement());
-        }
+        var preview = this.previewList.getPreviousPreview();
+        this.showImage(preview)
     };
 
     /**
      * Обновдяет основное изображение.
-     * @param {HTMLElement} preview - элемент малого изображения.
+     * @param {GalleryPreview | null} preview - элемент малого изображения.
      */
     this.showImage = function (preview) {
-        var previewData = this.previewList.getPreviewData(preview);
-
-        if (previewData.index >= 0) {
-            this.image.update(previewData);
+        if (preview) {
+            var current = this.previewList.getCurrentPreview();
+            this.image.switch(current, preview);
+            this.switchingTo = preview;
         }
     };
 
@@ -147,10 +141,6 @@ var Gallery = function (config) {
             loadingVeil: {
                 activeClassName: 'gallery__loading_active',
                 className: 'gallery__loading'
-            },
-            callbacks: {
-                onError: this.handleUpdateError.bind(this),
-                onLoad: this.afterUpdate.bind(this)
             }
         },
         previewList: {
@@ -165,24 +155,39 @@ var Gallery = function (config) {
             },
             preview: {
                 activeClassName: 'active',
+                errorClassName: 'error',
                 selector: 'li'
             },
             selector: '.js-gallery-preview-list'
         }
     };
 
-    this.config = extend(defaultConfig, config || {});
+    var configExtension = {
+        image: {
+            callbacks: {
+                onError: this.handleUpdateError.bind(this),
+                onLoad: this.afterUpdate.bind(this)
+            }
+        }
+    };
+
+    this.config = extend(defaultConfig, config || {}, configExtension);
 
     if (this.configCorrect()) {
         this.element = document.querySelector('#' + this.config.id);
         this.index = this.element.querySelector(this.config.counter.current.selector);
         this.image = new GalleryImage(this.config.image, this.element);
         this.previewList = new GalleryPreviewList(this.config.previewList, this.element);
+        this.switchingTo = null;
 
         this.debug = false;
 
         this.element.addEventListener('click', this.handleClick.bind(this));
         window.addEventListener('keydown', this.handleKeyDown.bind(this));
+    } else {
+        if (this.debug) {
+            console.error('Ошибка в конфигурации `Gallery`');
+        }
     }
 
     return {};

@@ -4,16 +4,19 @@
  * Основное изображение. Загруженные и показанные изображения не загружаются повторно, используется кеш браузера.
  * @param {Object} config - настройки изображения (включают в себя настройки спиннера).
  * @param {HTMLElement} context - родительский элемент, выполняющий роль контекста.
- * @returns {{update}} - возвращает `API` (метод обновления изображения).
+ * @returns {{switch}} - возвращает `API` (метод переключения изображения).
  * @constructor
  */
 var GalleryImage = function (config, context) {
     /**
-     * Проверяет правильность настроек. Настройки правильны, если они есть и в них есть непустое свойство `className`.
+     * Проверяет правильность настроек. Настройки правильны, если:
+     * - они есть
+     * - в них есть непустое свойство `className`
+     * - в них есть непустое свойство `loadingVeil`
      * @returns {boolean} - возвращает `true`, если настройки правильны, `false` - если нет.
      */
     this.configCorrect = function () {
-        return !!this.config && !!this.config.className;
+        return !!this.config && !!this.config.className && !!this.config.loadingVeil;
     };
 
     /**
@@ -26,6 +29,8 @@ var GalleryImage = function (config, context) {
 
         if (this.config.callbacks.onError) {
             this.config.callbacks.onError(error);
+            this.img.src = this.switchingFrom.getImageSource();
+            this.switchingFrom = null;
             this.switchingTo = null;
         }
     };
@@ -38,7 +43,8 @@ var GalleryImage = function (config, context) {
         this.loading(false);
 
         if (this.config.callbacks.onLoad && this.switchingTo) {
-            this.config.callbacks.onLoad(this.switchingTo.index);
+            this.config.callbacks.onLoad(this.switchingTo);
+            this.switchingFrom = null;
             this.switchingTo = null;
         }
     };
@@ -56,16 +62,18 @@ var GalleryImage = function (config, context) {
     };
 
     /**
-     * Обновляет основное изображение, загружая новое изображение. Сохраняет данные малого изображения, на которое
+     * Обновляет основное изображение, загружая новое изображение. Сохраняет объект малого изображения, на которое
      * осуществляется переход, для последующего использования в обработчике успешной загрузки основного изображения.
-     * @param {{index: number, src: string}} preview - данные малого изображения: `url` нового изображения и индекс
-     * малого изображения.
+     * @param {GalleryPreview} currentPreview - объект текущего малого изображения, с которого осуществляется
+     * переключение.
+     * @param {GalleryPreview} nextPreview - объект малого изображения, на которое осуществляется переключение.
      */
-    this.update = function (preview) {
+    this.switch = function (currentPreview, nextPreview) {
         if (this.element) {
-            this.switchingTo = preview;
+            this.switchingFrom = currentPreview;
+            this.switchingTo = nextPreview;
             this.loading(true);
-            this.img.src = preview.src;
+            this.img.src = nextPreview.getImageSource();
         }
     };
 
@@ -81,10 +89,11 @@ var GalleryImage = function (config, context) {
             this.img.onload = this.handleLoad.bind(this);
             this.img.onerror = this.handleError.bind(this);
             this.switchingTo = null;
+            this.switchingFrom = null;
         }
     }
 
     return {
-        update: this.update.bind(this)
+        switch: this.switch.bind(this)
     };
 };

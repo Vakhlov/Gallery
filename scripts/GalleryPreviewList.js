@@ -206,10 +206,9 @@ var GalleryPreviewList = function (config, context) {
      * и зацикливание отключено.
      */
     this.getNextPreview = function () {
-        var looped = false;
         var index = this.currentIndex + 1;
 
-        if (index > this.previews.length - 1 && looped === false) {
+        if (index > this.previews.length - 1 && this.config.looped === false) {
             return null;
         }
 
@@ -243,10 +242,9 @@ var GalleryPreviewList = function (config, context) {
      * и зацикливание отключено.
      */
     this.getPreviousPreview = function () {
-        var looped = false;
         var index = this.currentIndex - 1;
 
-        if (index < 0 && looped === false) {
+        if (index < 0 && this.config.looped === false) {
             return null;
         }
 
@@ -471,7 +469,7 @@ var GalleryPreviewList = function (config, context) {
             this.activatePreview(this.previews[0]); // пометка первого малого изображения как активного
         }
 
-        // На этапе инициализации значения этих свойств могу оказаться некорректными. Загрузка начального
+        // На этапе инициализации значения этих свойств могут оказаться некорректными. Загрузка начального
         // содержимого может приводить к появлению полосы прокрутки. Эта функция может выполняться до окончания
         // загрузки содержимого и появления полосы прокрутки, поэтому величины scrollBy и minLeft могут включать
         // ширину полосы прокрутки, что приводит к неполной прокрутке и частичному сокрытию последнего превью.

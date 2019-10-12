@@ -123,6 +123,20 @@ var Gallery = function (config) {
     };
 
     /**
+     * Запускает автопоказ следующего изображения.
+     */
+    this.start = function () {
+        this.interval = setInterval(this.next.bind(this), this.config.autoShowInterval);
+    };
+
+    /**
+     * Останавливает автопоказ следующего изображения.
+     */
+    this.stop = function () {
+        clearInterval(this.interval);
+    };
+
+    /**
      * Обновляет значение счетчика.
      * @param {number} index - индекс активного малого изображения.
      */
@@ -131,6 +145,8 @@ var Gallery = function (config) {
     };
 
     var defaultConfig = {
+        autoShow: true,
+        autoShowInterval: 3000,
         counter: {
             current: {
                 selector: '.js-gallery-current-index'
@@ -153,6 +169,7 @@ var Gallery = function (config) {
                     className: 'gallery__prev'
                 }
             },
+            looped: true,
             preview: {
                 activeClassName: 'active',
                 errorClassName: 'error',
@@ -177,6 +194,9 @@ var Gallery = function (config) {
         this.element = document.querySelector('#' + this.config.id);
         this.index = this.element.querySelector(this.config.counter.current.selector);
         this.image = new GalleryImage(this.config.image, this.element);
+
+        this.interval = null;
+
         this.previewList = new GalleryPreviewList(this.config.previewList, this.element);
         this.switchingTo = null;
 
@@ -184,6 +204,12 @@ var Gallery = function (config) {
 
         this.element.addEventListener('click', this.handleClick.bind(this));
         window.addEventListener('keydown', this.handleKeyDown.bind(this));
+
+        if (this.config.autoShow) {
+            this.image.onMouseEnter(this.stop.bind(this));
+            this.image.onMouseLeave(this.start.bind(this));
+            this.start();
+        }
     } else {
         if (this.debug) {
             console.error('Ошибка в конфигурации `Gallery`');

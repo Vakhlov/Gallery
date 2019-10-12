@@ -62,6 +62,24 @@ var GalleryImage = function (config, context) {
     };
 
     /**
+     * Создает функцию установки/удаления функции обратного вызова для указанного события. Возвращаемая функция
+     * принимает в качестве параметра обработчик события.
+     * @param {string} event - название события, например, `mouseenter`.
+     * @returns {Function} - возвращает функцию установки/удаления функции обратного вызова для события.
+     */
+    this.setEventHandler = function (event) {
+        return function (callback) {
+            if (callback) {
+                this.element.addEventListener(event, callback);
+                this.callbacks[event] = callback;
+            } else {
+                this.element.removeEventListener(event, this.callbacks[event]);
+                this.callbacks[event] = null;
+            }
+        }
+    };
+
+    /**
      * Обновляет основное изображение, загружая новое изображение. Сохраняет объект малого изображения, на которое
      * осуществляется переход, для последующего использования в обработчике успешной загрузки основного изображения.
      * @param {GalleryPreview} currentPreview - объект текущего малого изображения, с которого осуществляется
@@ -90,10 +108,17 @@ var GalleryImage = function (config, context) {
             this.img.onerror = this.handleError.bind(this);
             this.switchingTo = null;
             this.switchingFrom = null;
+
+            this.callbacks = {
+                mouseenter: null,
+                mouseleave: null
+            };
         }
     }
 
     return {
+        onMouseEnter: (this.setEventHandler('mouseenter')).bind(this),
+        onMouseLeave: (this.setEventHandler('mouseleave')).bind(this),
         switch: this.switch.bind(this)
     };
 };
